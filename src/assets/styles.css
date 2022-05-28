@@ -54,3 +54,6 @@ html {
 .outcome {
   color: var(--outcome);
 }
+.hidden {
+  visibility: hidden;
+}

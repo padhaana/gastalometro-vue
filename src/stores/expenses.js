@@ -1,9 +1,10 @@
+import { nanoid } from 'nanoid'
 import { ref, computed } from 'vue'
 
 const expensesList = ref([
-  { id: 1, description: 'Item 1', amount: 50 },
-  { id: 2, description: 'Item 2', amount: -20 },
-  { id: 3, description: 'Item 3', amount: 45 },
+  { id: nanoid(), description: 'Item 1', amount: 50 },
+  { id: nanoid(), description: 'Item 2', amount: -20 },
+  { id: nanoid(), description: 'Item 3', amount: 45 },
 ])
 
 const total = computed(
