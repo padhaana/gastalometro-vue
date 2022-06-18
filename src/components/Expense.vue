@@ -1,7 +1,8 @@
 <script setup>
 const props = defineProps({
   description: String,
-  amount: Number
+  amount: Number,
+  unit: String
 })
 </script>
 
@@ -18,6 +19,6 @@ const props = defineProps({
     ]"
   >
     <span>{{ props.description }}</span>
-    <span>{{ props.amount }}</span>
+    <span>{{ props.amount }} {{ props.unit }}</span>
   </li>
 </template>

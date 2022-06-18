@@ -2,7 +2,6 @@
 const props = defineProps({
   total: Number
 })
-// Crear handler del evento @changeTotal
 </script>
 
 <template>

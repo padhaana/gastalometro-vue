@@ -1,45 +1,19 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { expensesList, total } from '@stores/expenses';
+import { 
+  expensesGroupList, 
+  expensesGroupListTotal,
+  showForm, 
+  changeMessage, 
+  message 
+} from '@stores/expenses';
 import Expense from '@components/Expense.vue'
 import Total from '@components/Total.vue'
-import { nanoid } from 'nanoid'
+import ExpenseForm from '@components/ExpenseForm.vue'
 
-let showForm = ref(false)
-let description = ref('')
-let amount = ref(0)
-
-const addExpense = () => {
-  expensesList.value.push({ 
-    id: nanoid(),
-    description: description.value,
-    amount: Number(amount.value)
-   })
-   showForm.value = false
-   description.value = ''
-   amount.value = 0
-}
-
-const incomeList = computed(() => {
-  return expensesList.value.filter(expense => expense.amount > 0)
-})
-const outcomeList = computed(() => {
-  return expensesList.value.filter(expense => expense.amount < 0)
-})
-
-// Cambiar cuerpo de la función para no cambiar expensesList
-const onlyIncome = () => {
-  expensesList.value = incomeList.value
-}
-
-// Cambiar cuerpo de la función para no cambiar expensesList
-const onlyOutcome = () => {
-  expensesList.value = outcomeList.value
-}
-
-defineEmits([
-  'changeTotal'
-])
+/**
+ * TODO: Cambiar montos en bolívares y dólares
+ * TODO: Gráfica con fecha de ingresos y egresos
+ */
 </script>
 
 <template>
@@ -49,29 +23,16 @@ defineEmits([
         <button @click="emit('changeTotal')">Bolívares</button>
       </li>
       <Expense 
-        v-for="expense in expensesList"
+        v-for="expense in expensesGroupList"
         :key="expense.id"
         v-bind="expense"
       />
-      <li class="item-description flex between" v-if="showForm">
-        <input
-          v-model="description"
-          placeholder="Descripción" 
-          class="input medium" 
-          type="text"
-        >
-        <input 
-          v-model="amount"
-          placeholder="Monto" 
-          class="input small" 
-          type="text"
-        >
-        <button @click="addExpense">Agregar</button>
-      </li>
-      <Total :total="total" />
+      <ExpenseForm @hideForm="showForm = false" v-if="showForm"/>
+      <Total :total="expensesGroupListTotal" />
       <li class="item-description flex between">
-        <button class="button clickable" @click="onlyIncome">Solo Ingresos</button>
-        <button class="button clickable" @click="onlyOutcome">Solo Gastos</button>
+        <button class="button clickable" @click="changeMessage">
+          Mostrar {{message}}
+        </button>
       </li>
     </ul>
     <button class="button clickable" @click="showForm = true">Nueva Entrada</button>
